@@ -1,6 +1,7 @@
 //tpfinalParte1
 //Elian Arce y Jeremias Encinas
 
+let fondo, suena;
 let imagen=[];
 let estado=0;
 let frases=['Sos el oficial Rojas. Es de noche y recibís un llamado por disparos en el barrio. Llegás al lugar. Ves una mochila tirada en el suelo. ¿Querés revisar la mochila?',
@@ -19,6 +20,7 @@ let frases=['Sos el oficial Rojas. Es de noche y recibís un llamado por disparo
   'Rojas y Nico publican las pruebas. Caen los responsables. Rojas pierde su placa, pero no su conciencia. El que esquiva las balas es el que elige no disparar. ',
 ];
 function preload() {
+  fondo = loadSound('data/fondo.mp3');
   for (let i=0; i<16; i++) {
     imagen[i]=loadImage('data/pantalla'+i+'.jpg');
   }
@@ -26,15 +28,17 @@ function preload() {
 
 function setup() {
   createCanvas(640, 480);
+  fondo.loop();
+  suena = false;
   for (let i=0; i<16; i++) {
-    imagen[i].resize(640, 480); 
+    imagen[i].resize(640, 480);
   }
   textSize(18);
 }
 
 
 function draw() {
-  
+
   if (estado===0) {
     multi(imagen[0]);
     boton(300, 400, 100, 50, "INICIAR");
@@ -120,6 +124,12 @@ function draw() {
 
 
 function mousePressed() {
+   if (!suena) {
+    userStartAudio();
+    fondo.loop();
+    suena = true;
+  }
+  
   if (estado===0) {
     if (overMouse(300, 400, 100, 50)) {
       estado = 1;
@@ -181,7 +191,7 @@ function mousePressed() {
     if (overMouse(300, 400, 100, 50)) {
       estado = 0;
       return;
-    }else if (overMouse(150, 400, 100, 50)) {
+    } else if (overMouse(150, 400, 100, 50)) {
       estado = 16 ;
       return;
     }
@@ -211,11 +221,10 @@ function mousePressed() {
     if (overMouse(300, 400, 100, 50)) {
       estado = 0;
       return;
-    }else if (overMouse(150, 400, 100, 50)) {
+    } else if (overMouse(150, 400, 100, 50)) {
       estado = 16 ;
       return;
     }
-    
   }
   if (estado===12) {
     if (overMouse(300, 400, 100, 50, )) {
@@ -233,8 +242,7 @@ function mousePressed() {
     if (overMouse(300, 400, 100, 50, )) {
       estado = 0;
       return;
-    }
-    else if (overMouse(150, 400, 100, 50)) {
+    } else if (overMouse(150, 400, 100, 50)) {
       estado = 16 ;
       return;
     }
@@ -245,13 +253,13 @@ function mousePressed() {
       return;
     }
   }
+
 }
 
 
 
 
-
-function boton(posX, posY, tamX, tamY, textoB) { 
+function boton(posX, posY, tamX, tamY, textoB) {
   if (overMouse(posX, posY, tamX, tamY)) {
     fill(100);
   } else {
